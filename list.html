@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>List</title>
+    <style>
+    table,td,th {
+      border:solid 1px;
+      border-collapse:collapse;
+    }
+    </style>
+  </head>
+  <body>
+    <p id="list"></p>
+
+  <script>
+    const Http = new XMLHttpRequest();
+    const url = 'http://192.168.1.169:8080/?gameid=game1';
+    Http.open("GET", url);
+    Http.send();
+    Http.onreadystatechange=function() {
+      if(this.readyState==4 && this.status==200){
+        var text;
+        response = JSON.parse(Http.response);
+        for (i in response) {
+          document.getElementById("list").innerHTML += response[i] + "<br>";
+        }
+      }
+    }
+  </script>
+  </body>
+</html>

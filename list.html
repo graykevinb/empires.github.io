@@ -10,19 +10,37 @@
     </style>
   </head>
   <body>
+    <div>
+      <label for="gameid-input">Input gameid</label>
+      <input name="gameid" id="gameid-input">
+    </div>
+    <div>
+      <input type="button" value="Submit" onclick="submit()">
+    </div>
     <p id="list"></p>
 
   <script>
-    const Http = new XMLHttpRequest();
-    const url = 'http://192.168.1.169:8080/?gameid=game1';
-    Http.open("GET", url);
-    Http.send();
-    Http.onreadystatechange=function() {
-      if(this.readyState==4 && this.status==200){
-        var text;
-        response = JSON.parse(Http.response);
-        for (i in response) {
-          document.getElementById("list").innerHTML += response[i] + "<br>";
+    function submit() {
+      var gameid = document.getElementById("gameid-input").value;
+        console.log(gameid);
+        getData(gameid);
+    }
+
+    
+    function getData(gameid) {
+      console.log('Started getData func');
+      const Http = new XMLHttpRequest();
+      const url = 'http://192.168.1.169:8080/?gameid=' + gameid;
+      Http.open("GET", url);
+      Http.send();
+      Http.onreadystatechange=function() {
+        if(this.readyState==4 && this.status==200){
+          response = JSON.parse(Http.response);
+          console.log(response);
+          for (i in response) {
+            console.log(response[i]);
+            document.getElementById("list").innerHTML += response[i] + "<br>";
+          }
         }
       }
     }

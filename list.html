@@ -10,6 +10,8 @@
     </style>
   </head>
   <body>
+    <a href="file:///C:/Users/kgray/Documents/empires.github.io/index.html">Index</a>
+    <a href="file:///C:/Users/kgray/Documents/empires.github.io/delete.html">Delete</a>
     <div>
       <label for="gameid-input">Input gameid</label>
       <input name="gameid" id="gameid-input">
@@ -30,7 +32,7 @@
     function getData(gameid) {
       console.log('Started getData func');
       const Http = new XMLHttpRequest();
-      const url = 'http://192.168.1.169:8080/?gameid=' + gameid;
+      const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
       Http.open("GET", url);
       Http.send();
       Http.onreadystatechange=function() {

@@ -1,23 +1,101 @@
 <!DOCTYPE html>
 <html>
-	<body>
-    <a href="file:///C:/Users/kgray/Documents/empires.github.io/list.html">List</a>
+  <head>
+    <title>index</title>
+    <style>
+    table,td,th {
+      border:solid 1px;
+      border-collapse:collapse;
+    }
+    </style>
+  </head>
+  <body>
+    <a href="file:///C:/Users/kgray/Documents/empires.github.io/index.html">Index</a>
     <a href="file:///C:/Users/kgray/Documents/empires.github.io/delete.html">Delete</a>
-		<form action="https://us-central1-empires-273722.cloudfunctions.net/submit/" method="GET">
-			<div>
-				<label for="username">Input your real name here</label>
-				<input name="username" id="username" value="">
-				<label for="name">Input name here</label>
-				<input name="name" id="name" value="Name">
-				<label for="gameId">Input game id</label>
-				<input name="gameid" id="gameid" value="Name">
-			</div>
-			<div>
-				<button>Submit</button>
-			</div>
-		</form>
-	</body>
+    <div id="join-game">
+      <label for="gameid-input">Input gameid to join game</label>
+      <input name="gameid" id="gameid-input">
+    </div>
+    <div id="new-game-div">
+      <input type="button" value="New Game" onclick="submit()">
+    </div>
+    <p id="generated-code"></p>
+    <div id="new-name">
+      <label for="name-input">Name to submit</label>
+      <input name="name-input" id="name-input">
+      <input type="button" value="Submit Name" onclick="submit_name()">
+    </div>
+
+  <script>
+    var new_name = document.getElementById("new-name");
+    new_name.style.display = "none";
+    function submit() {
+      var gameid = document.getElementById("gameid-input").value;
+        console.log(gameid);
+        generateGameCode(gameid);
+    }
+
+    function submit_name() {
+      var name = document.getElementById("name-input").value;
+      const Http = new XMLHttpRequest();
+      const url
+        ='https://us-central1-empires-273722.cloudfunctions.net/submit/?gameid='
+        + window.gameid + '?name=' + name;
+      console.log(url)
+      Http.open("GET", url);
+      Http.send();
+      Http.onreadystatechange=function() {
+        if(this.readyState==4 && this.status==200){
+          response = JSON.parse(Http.response);
+          console.log(response);
+        }
+      }
+    }
+    
+    function generateGameCode() {
+      console.log('Started generateGameCode func');
+      const Http = new XMLHttpRequest();
+      const url = 'https://us-central1-empires-273722.cloudfunctions.net/generate_code';
+      //const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
+      Http.open("GET", url);
+      Http.send();
+      Http.onreadystatechange=function() {
+        if(this.readyState==4 && this.status==200){
+          response = JSON.parse(Http.response);
+          console.log(response);
+          window.gameid=response;
+          document.getElementById("generated-code").innerHTML = 'gamecode: ' + response;
+          document.getElementById("join-game").remove();
+          document.getElementById("new-game-div").remove();
+          //document.getElementById("join-game").remove();
+          var new_name = document.getElementById("new-name");
+          if (new_name.style.display == "none") {
+            new_name.style.display = "block";
+          } else {
+            new_name.style.display = "none";
+            }
+        }
+      }
+    }
+
+    function getData(gameid) {
+      console.log('Started getData func');
+      const Http = new XMLHttpRequest();
+      //const url = 'http://192.168.1.169:8080/?gameid=' + gameid;
+      const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
+      Http.open("GET", url);
+      Http.send();
+      Http.onreadystatechange=function() {
+        if(this.readyState==4 && this.status==200){
+          response = JSON.parse(Http.response);
+          console.log(response);
+          for (i in response) {
+            console.log(response[i]);
+            document.getElementById("list").innerHTML += response[i] + "<br>";
+          }
+        }
+      }
+    }
+  </script>
+  </body>
 </html>
-		
-
-

@@ -26,7 +26,8 @@
       var gameid = document.getElementById("gameid-input").value;
         console.log(gameid);
         const Http = new XMLHttpRequest();
-        const url = 'https://us-central1-empires-273722.cloudfunctions.net/delete/?gameid=' + gameid;
+        const url = 'http://192.168.1.169:8080/?gameid=' + gameid;
+        //const url = 'https://us-central1-empires-273722.cloudfunctions.net/delete/?gameid=' + gameid;
         Http.open("GET", url);
         Http.send();
     }

@@ -13,6 +13,7 @@
     <div id="join-game">
       <label for="gameid-input">Input gameid to join game</label>
       <input name="gameid" id="gameid-input">
+      <input type="button" value="Join Game" onclick="join_game()">
     </div>
     <div id="new-game-div">
       <input type="button" value="New Game" onclick="generate_code()">
@@ -44,6 +45,20 @@
 
     function show(id) {
      document.getElementById(id).style.display = "block";
+    }
+
+    function join_game() {
+      var gameid = document.getElementById("gameid-input").value;
+      const Http = new XMLHttpRequest();
+      const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
+      Http.open("GET", url);
+      http.send();
+      Http.onreadystatechange=function() {
+        if(this.readyState==3 && this.status==200) {
+          console.log('Gamecode validated: ' + gameid);
+          window.gameid=gameid;
+        }
+      }
     }
     function generate_code() {
       var gameid = document.getElementById("gameid-input").value;

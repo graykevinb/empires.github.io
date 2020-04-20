@@ -15,7 +15,7 @@
       <input name="gameid" id="gameid-input">
     </div>
     <div id="new-game-div">
-      <input type="button" value="New Game" onclick="submit()">
+      <input type="button" value="New Game" onclick="generate_code()">
     </div>
     <p id="generated-code"></p>
     <div id="new-name">
@@ -23,16 +23,50 @@
       <input name="name-input" id="name-input">
       <input type="button" value="Submit Name" onclick="submit_name()">
       <p id="new-name-success-indicator"></p>
-
+    </div>
+    <div id="list-container">
+      <input type="button" value="List names" onclick="getNames()">
+      <p id="list"></p>
     </div>
 
   <script>
-    var new_name = document.getElementById("new-name");
-    new_name.style.display = "none";
-    function submit() {
+    function init() {
+      var new_name = document.getElementById("new-name");
+      var list_div = document.getElementById("list-container");
+      new_name.style.display = "none";
+      list_div.style.display = "none";
+    }
+    init();
+
+    function hide(id) {
+     document.getElementById(id).style.display = "block";
+    }
+
+    function show(id) {
+     document.getElementById(id).style.display = "block";
+    }
+    function generate_code() {
       var gameid = document.getElementById("gameid-input").value;
-        console.log(gameid);
-        generateGameCode(gameid);
+      console.log(gameid);
+      console.log('Started generateGameCode func');
+      const Http = new XMLHttpRequest();
+      const url = 'https://us-central1-empires-273722.cloudfunctions.net/generate_code';
+      //const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
+      Http.open("GET", url);
+      Http.send();
+      Http.onreadystatechange=function() {
+        if(this.readyState==4 && this.status==200){
+          response = JSON.parse(Http.response);
+          console.log(response);
+          window.gameid=response;
+          document.getElementById("generated-code").innerHTML = 'gamecode: ' + response;
+          document.getElementById("join-game").remove();
+          document.getElementById("new-game-div").remove();
+          //document.getElementById("join-game").remove();
+          show("new-name");
+          show("list-container");
+        }
+       }
     }
 
     function submit_name() {
@@ -55,43 +89,19 @@
       }
     }
     
-    function generateGameCode() {
-      console.log('Started generateGameCode func');
-      const Http = new XMLHttpRequest();
-      const url = 'https://us-central1-empires-273722.cloudfunctions.net/generate_code';
-      //const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
-      Http.open("GET", url);
-      Http.send();
-      Http.onreadystatechange=function() {
-        if(this.readyState==4 && this.status==200){
-          response = JSON.parse(Http.response);
-          console.log(response);
-          window.gameid=response;
-          document.getElementById("generated-code").innerHTML = 'gamecode: ' + response;
-          document.getElementById("join-game").remove();
-          document.getElementById("new-game-div").remove();
-          //document.getElementById("join-game").remove();
-          var new_name = document.getElementById("new-name");
-          if (new_name.style.display == "none") {
-            new_name.style.display = "block";
-          } else {
-            new_name.style.display = "none";
-            }
-        }
-      }
-    }
-
-    function getData(gameid) {
-      console.log('Started getData func');
+    function getNames(gameid) {
+      console.log('Started getNames func');
       const Http = new XMLHttpRequest();
       //const url = 'http://192.168.1.169:8080/?gameid=' + gameid;
-      const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
+      const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + window.gameid;
+      console.log(url);
       Http.open("GET", url);
       Http.send();
       Http.onreadystatechange=function() {
         if(this.readyState==4 && this.status==200){
           response = JSON.parse(Http.response);
           console.log(response);
+          document.getElementById("list").innerHTML = '';
           for (i in response) {
             console.log(response[i]);
             document.getElementById("list").innerHTML += response[i] + "<br>";

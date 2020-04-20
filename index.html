@@ -52,11 +52,14 @@
       const Http = new XMLHttpRequest();
       const url = 'https://us-central1-empires-273722.cloudfunctions.net/list/?gameid=' + gameid;
       Http.open("GET", url);
-      http.send();
+      Http.send();
       Http.onreadystatechange=function() {
         if(this.readyState==3 && this.status==200) {
           console.log('Gamecode validated: ' + gameid);
           window.gameid=gameid;
+          document.getElementById("join-game").remove();
+          document.getElementById("new-game-div").remove();
+          show("new-name");
         }
       }
     }

@@ -10,8 +10,6 @@
     </style>
   </head>
   <body>
-    <a href="file:///C:/Users/kgray/Documents/empires.github.io/index.html">Index</a>
-    <a href="file:///C:/Users/kgray/Documents/empires.github.io/delete.html">Delete</a>
     <div id="join-game">
       <label for="gameid-input">Input gameid to join game</label>
       <input name="gameid" id="gameid-input">
@@ -24,7 +22,8 @@
       <label for="name-input">Name to submit</label>
       <input name="name-input" id="name-input">
       <input type="button" value="Submit Name" onclick="submit_name()">
-      <p id="new-name-success-indicator"><p>
+      <p id="new-name-success-indicator"></p>
+
     </div>
 
   <script>
@@ -42,7 +41,7 @@
       const url
         ='https://us-central1-empires-273722.cloudfunctions.net/submit/'
         //='http://192.168.1.169:8080/'
-        + '?gameid=' + window.gameid + '&name=' + name + '&username=sadlkfjds';
+        + '?gameid=' + window.gameid + '&name=' + name;
       console.log(url)
       Http.open("GET", url);
       Http.send();

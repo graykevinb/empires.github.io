@@ -24,6 +24,7 @@
       <label for="name-input">Name to submit</label>
       <input name="name-input" id="name-input">
       <input type="button" value="Submit Name" onclick="submit_name()">
+      <p id="new-name-success-indicator"><p>
     </div>
 
   <script>
@@ -39,14 +40,17 @@
       var name = document.getElementById("name-input").value;
       const Http = new XMLHttpRequest();
       const url
-        ='https://us-central1-empires-273722.cloudfunctions.net/submit/?gameid='
-        + window.gameid + '?name=' + name;
+        ='https://us-central1-empires-273722.cloudfunctions.net/submit/'
+        //='http://192.168.1.169:8080/'
+        + '?gameid=' + window.gameid + '&name=' + name + '&username=sadlkfjds';
       console.log(url)
       Http.open("GET", url);
       Http.send();
       Http.onreadystatechange=function() {
         if(this.readyState==4 && this.status==200){
           response = JSON.parse(Http.response);
+          document.getElementById("new-name-success-indicator").innerHTML =
+            response;
           console.log(response);
         }
       }

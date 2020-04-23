@@ -1,33 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
     <title>index</title>
     <style>
     table,td,th {
       border:solid 1px;
       border-collapse:collapse;
     }
+
+    html,body {
+      height:100%;
+      width:100%;
+      padding:0;
+      margin:0;
+    }
+
+    .input-container {
+      display: flex;
+      height:80%;
+      width:100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .input-container > div {
+      padding: 0px;
+    }
     </style>
   </head>
   <body>
-    <div id="join-game">
-      <label for="gameid-input">Input gameid to join game</label>
-      <input name="gameid" id="gameid-input">
-      <input type="button" value="Join Game" onclick="join_game()">
-    </div>
-    <div id="new-game-div">
-      <input type="button" value="New Game" onclick="generate_code()">
-    </div>
-    <p id="generated-code"></p>
-    <div id="new-name">
-      <label for="name-input">Name to submit</label>
-      <input name="name-input" id="name-input">
-      <input type="button" value="Submit Name" onclick="submit_name()">
-      <p id="new-name-success-indicator"></p>
-    </div>
-    <div id="list-container">
-      <input type="button" value="List names" onclick="getNames()">
-      <p id="list"></p>
+    <div class="input-container">
+      <div id="join-game">
+        <input name="gameid" placeholder="Input gameid" id="gameid-input">
+        <input type="button" value="Join Game" onclick="join_game()">
+      </div>
+      <bold>or</bold>
+      <div id="new-game-div">
+        <input type="button" value="New Game" onclick="generate_code()">
+      </div>
+      <p id="generated-code"></p>
+      <div id="new-name">
+        <label for="name-input">Name to submit</label>
+        <input name="name-input" id="name-input">
+        <input type="button" value="Submit Name" onclick="submit_name()">
+        <p id="new-name-success-indicator"></p>
+      </div>
+      <div id="list-container">
+        <input type="button" value="List names" onclick="getNames()">
+        <p id="list"></p>
+      </div>
     </div>
 
   <script>

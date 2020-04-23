@@ -35,7 +35,7 @@
         <input name="gameid" placeholder="Input gameid" id="gameid-input">
         <input type="button" value="Join Game" onclick="join_game()">
       </div>
-      <p>or</p>
+      <p id="button-text-seperator">or</p>
       <div id="new-game-div">
         <input class="large" type="button" value="New Game" onclick="generate_code()">
       </div>
@@ -69,6 +69,12 @@
      document.getElementById(id).style.display = "block";
     }
 
+    function hide_join_game_inputs() {
+      document.getElementById("join-game").remove();
+      document.getElementById("new-game-div").remove();
+      document.getElementById("button-text-seperator").remove();
+    }
+
     function join_game() {
       var gameid = document.getElementById("gameid-input").value;
       const Http = new XMLHttpRequest();
@@ -79,8 +85,7 @@
         if(this.readyState==3 && this.status==200) {
           console.log('Gamecode validated: ' + gameid);
           window.gameid=gameid;
-          document.getElementById("join-game").remove();
-          document.getElementById("new-game-div").remove();
+          hide_join_game_inputs();
           show("new-name");
         }
       }
@@ -100,9 +105,7 @@
           console.log(response);
           window.gameid=response;
           document.getElementById("generated-code").innerHTML = 'gamecode: ' + response;
-          document.getElementById("join-game").remove();
-          document.getElementById("new-game-div").remove();
-          //document.getElementById("join-game").remove();
+          hide_join_game_inputs();
           show("new-name");
           show("list-container");
         }

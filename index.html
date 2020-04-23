@@ -39,15 +39,14 @@
       <div id="new-game-div">
         <input class="large" type="button" value="New Game" onclick="generate_code()">
       </div>
-      <p id="generated-code"></p>
+      <h1 id="generated-code"></h1>
       <div id="new-name">
-        <label for="name-input">Name to submit</label>
-        <input name="name-input" id="name-input">
+        <input placeholder="Enter a persons name" name="name-input" id="name-input">
         <input type="button" value="Submit Name" onclick="submit_name()">
         <p id="new-name-success-indicator"></p>
       </div>
       <div id="list-container">
-        <input type="button" value="List names" onclick="getNames()">
+        <input class="large" type="button" value="List names" onclick="getNames()">
         <p id="list"></p>
       </div>
     </div>
